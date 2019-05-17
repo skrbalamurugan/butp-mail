@@ -1,0 +1,26 @@
+.main{
+    min-height: 100vh;
+}
+.h1{
+    font-weight: 600;
+}
+.header{
+    color: #fff;
+    text-align: center;
+    padding: 50px 10px;
+    background-image: 'img/header-bg.jpg';
+    background-color: cornflowerblue;
+}
+.footer{
+    background-color: cornflowerblue;
+    padding: 10px;
+    color: #fff;
+    text-align: center
+}
+.form-check-input {
+    position: inherit;
+    margin-left: 1.75rem;
+}
+.main-box{
+    padding: 50px 10px;
+}
