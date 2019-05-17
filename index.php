@@ -9,41 +9,46 @@ require 'vendor/autoload.php';
 
 // Instantiation and passing `true` enables exceptions
 $mail = new PHPMailer(true);
+if(isset($_POST['submit']))
+{
+    echo 'hi';
+    exit;
+    try {
+        //Server settings
+        $mail->SMTPDebug = 2;                                       // Enable verbose debug output
+        $mail->isSMTP();                                            // Set mailer to use SMTP
+        $mail->Host       = 'smtp.mailtrap.io';  // Specify main and backup SMTP servers
+        $mail->SMTPAuth   = true;                                   // Enable SMTP authentication
+        $mail->Username   = '36f1e6ea56c3ec';                     // SMTP username
+        $mail->Password   = '138185ab3c4466';                               // SMTP password
+        $mail->SMTPSecure = 'smtp';                                  // Enable TLS encryption, `ssl` also accepted
+        $mail->Port       = 2525;                                    // TCP port to connect to
 
-try {
-    //Server settings
-    $mail->SMTPDebug = 2;                                       // Enable verbose debug output
-    $mail->isSMTP();                                            // Set mailer to use SMTP
-    $mail->Host       = 'smtp1.example.com;smtp2.example.com';  // Specify main and backup SMTP servers
-    $mail->SMTPAuth   = true;                                   // Enable SMTP authentication
-    $mail->Username   = 'user@example.com';                     // SMTP username
-    $mail->Password   = 'secret';                               // SMTP password
-    $mail->SMTPSecure = 'tls';                                  // Enable TLS encryption, `ssl` also accepted
-    $mail->Port       = 587;                                    // TCP port to connect to
+        //Recipients
+        $mail->setFrom('from@example.com', 'Mailer');
+        $mail->addAddress('balamurugan@refixd.com', 'Joe User');     // Add a recipient
+        $mail->addAddress('ellen@example.com');               // Name is optional
+        $mail->addReplyTo('info@example.com', 'Information');
+        $mail->addCC('cc@example.com');
+        $mail->addBCC('bcc@example.com');
 
-    //Recipients
-    $mail->setFrom('from@example.com', 'Mailer');
-    $mail->addAddress('balamurugan@refixd.com', 'Joe User');     // Add a recipient
-    $mail->addAddress('ellen@example.com');               // Name is optional
-    $mail->addReplyTo('info@example.com', 'Information');
-    $mail->addCC('cc@example.com');
-    $mail->addBCC('bcc@example.com');
+        // Attachments
+        $mail->addAttachment('/var/tmp/file.tar.gz');         // Add attachments
+        $mail->addAttachment('/tmp/image.jpg', 'new.jpg');    // Optional name
 
-    // Attachments
-    $mail->addAttachment('/var/tmp/file.tar.gz');         // Add attachments
-    $mail->addAttachment('/tmp/image.jpg', 'new.jpg');    // Optional name
+        // Content
+        $mail->isHTML(true);                                  // Set email format to HTML
+        $mail->Subject = 'Here is the subject';
+        $mail->Body    = 'This is the HTML message body <b>in bold!</b>';
+        $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 
-    // Content
-    $mail->isHTML(true);                                  // Set email format to HTML
-    $mail->Subject = 'Here is the subject';
-    $mail->Body    = 'This is the HTML message body <b>in bold!</b>';
-    $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
-
-    $mail->send();
-    echo 'Message has been sent';
-} catch (Exception $e) {
-    echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+        $mail->send();
+        echo 'Message has been sent';
+    } catch (Exception $e) {
+        echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+    }
 }
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -69,7 +74,7 @@ try {
         </div>
         <div class="container">
             <div class="main-box">
-                <form>
+                <form method="post" action="mail.php">
                     <div class="row">
                         <div class="col-sm-3">
                             <label>Applicant Name</label>
@@ -102,22 +107,12 @@ try {
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <div class='input-group date' id='datetimepicker2'>
-                                            <input type='text' class="form-control" placeholder="From date"/>
-                                            <span class="input-group-addon">
-                                                <span class="glyphicon glyphicon-calendar"></span>
-                                            </span>
-                                        </div>
+                                        <input type='text' class="form-control" name="from_date" placeholder="From date"/>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <div class='input-group date' id='datetimepicker2'>
-                                            <input type='text' class="form-control" placeholder="To date"/>
-                                            <span class="input-group-addon">
-                                                <span class="glyphicon glyphicon-calendar"></span>
-                                            </span>
-                                        </div>
+                                        <input type='text' class="form-control" name="to_date" placeholder="To date"/>
                                     </div>
                                 </div>
                             </div>
