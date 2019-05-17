@@ -1,5 +1,5 @@
 .main{
-    min-height: 100vh;
+    min-height: 95vh;
 }
 .h1{
     font-weight: 600;
@@ -23,4 +23,7 @@
 }
 .main-box{
     padding: 50px 10px;
+}
+.text-right{
+    text-align: right;
 }
