@@ -1,4 +1,5 @@
 <?php
+session_start();
 // Import PHPMailer classes into the global namespace
 // These must be at the top of your script, not inside a function
 use PHPMailer\PHPMailer\PHPMailer;
@@ -33,11 +34,17 @@ $mail = new PHPMailer(true);
         $data  .= 'Email : '.$_POST["email"].'<br><br>';
         $data  .= 'Mobile : '.$_POST["mobile"].'<br><br>';
         $data  .= 'Admin Approval : '.$_POST["admin_approval"].'<br><br>';
-        $data  .= 'Name : '.$_POST["name"].'<br><br>';
-        $data  .= 'Name : '.$_POST["name"].'<br><br>';
-        $data  .= 'Name : '.$_POST["name"].'<br><br>';
-        echo $data;
-        die();
+        if($_POST['admin_apprival'] == 'yes'){
+            $data  .= 'Reference Number : '.$_POST["ref_num"].'<br><br>';
+        }
+        $data  .= 'Maintanance Expensive Waived : '.$_POST["maintanance"].'<br><br>';
+        if($_POST['maintanance'] == 'no'){
+            $data  .= 'Amount : '.$_POST["amount"].'<br><br>';
+            $data  .= 'DD Number : '.$_POST["dd_num"].'<br><br>';
+            $data  .= 'MR Number : '.$_POST["mr_num"].'<br><br>';
+            $data  .= 'Cheque Number : '.$_POST["cheque_num"].'<br><br>';
+        }
+
         foreach($toAddress as $mailto){
             $mail->addAddress($mailto['email']);
         }
@@ -48,7 +55,9 @@ $mail = new PHPMailer(true);
         $mail->Body    = $data;
 
         $mail->send();
-        echo 'Message has been sent';
+        $_SESSION['msg']="Updation successfully completed";
+        header('location:index.php');
+
     } catch (Exception $e) {
         echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
     }

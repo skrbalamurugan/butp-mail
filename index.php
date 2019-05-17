@@ -1,55 +1,4 @@
-<?php
-// Import PHPMailer classes into the global namespace
-// These must be at the top of your script, not inside a function
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
-
-// Load Composer's autoloader
-require 'vendor/autoload.php';
-
-// Instantiation and passing `true` enables exceptions
-$mail = new PHPMailer(true);
-if(isset($_POST['submit']))
-{
-    echo 'hi';
-    exit;
-    try {
-        //Server settings
-        $mail->SMTPDebug = 2;                                       // Enable verbose debug output
-        $mail->isSMTP();                                            // Set mailer to use SMTP
-        $mail->Host       = 'smtp.mailtrap.io';  // Specify main and backup SMTP servers
-        $mail->SMTPAuth   = true;                                   // Enable SMTP authentication
-        $mail->Username   = '36f1e6ea56c3ec';                     // SMTP username
-        $mail->Password   = '138185ab3c4466';                               // SMTP password
-        $mail->SMTPSecure = 'smtp';                                  // Enable TLS encryption, `ssl` also accepted
-        $mail->Port       = 2525;                                    // TCP port to connect to
-
-        //Recipients
-        $mail->setFrom('from@example.com', 'Mailer');
-        $mail->addAddress('balamurugan@refixd.com', 'Joe User');     // Add a recipient
-        $mail->addAddress('ellen@example.com');               // Name is optional
-        $mail->addReplyTo('info@example.com', 'Information');
-        $mail->addCC('cc@example.com');
-        $mail->addBCC('bcc@example.com');
-
-        // Attachments
-        $mail->addAttachment('/var/tmp/file.tar.gz');         // Add attachments
-        $mail->addAttachment('/tmp/image.jpg', 'new.jpg');    // Optional name
-
-        // Content
-        $mail->isHTML(true);                                  // Set email format to HTML
-        $mail->Subject = 'Here is the subject';
-        $mail->Body    = 'This is the HTML message body <b>in bold!</b>';
-        $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
-
-        $mail->send();
-        echo 'Message has been sent';
-    } catch (Exception $e) {
-        echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
-    }
-}
-?>
-
+<?php session_start();?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -74,6 +23,15 @@ if(isset($_POST['submit']))
         </div>
         <div class="container">
             <div class="main-box">
+                <?php 
+                    if(isset($_SESSION['msg'])){
+                        echo '<div class="alert alert-info alert-dismissible fade show" role="alert">
+                        <strong>Mail Sent Successfully</strong><button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>';
+                    }
+                ?>
                 <form method="post" action="mail.php">
                     <div class="row">
                         <div class="col-sm-3">
@@ -81,7 +39,7 @@ if(isset($_POST['submit']))
                         </div>
                         <div class="col-sm-9">
                             <div class="form-group">
-                                <input type="text" class="form-control" name="name">
+                                <input type="text" class="form-control" name="name" required>
                             </div>
                         </div>
                         <div class="col-sm-3">
@@ -89,14 +47,14 @@ if(isset($_POST['submit']))
                         </div>
                         <div class="col-sm-9">
                             <div class="form-group">
-                                <input type="text" class="form-control" name="designation">
+                                <input type="text" class="form-control" name="designation" required>
                             </div>
                         </div>
                         <div class="col-sm-3">
                             <label>Booking For</label>
                         </div>
                         <div class="col-sm-9">
-                            <input class="form-check-input" type="radio" name="booking" value="Convacation Hall"> <label> Convacation Hall </label>
+                            <input class="form-check-input" type="radio" name="booking" value="Convacation Hall" checked> <label> Convacation Hall </label>
                             <input class="form-check-input" type="radio" name="booking" value="Auditoriam"> <label> Auditoriam </label>
                             <input class="form-check-input" type="radio" name="booking" value="Multipurpose Hall"> <label> Multipurpose Hall </label>
                         </div>
@@ -107,12 +65,12 @@ if(isset($_POST['submit']))
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <input type='text' class="form-control" name="from_date" placeholder="From date"/>
+                                        <input type='text' class="form-control" name="from_date" placeholder="From date" required/>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <input type='text' class="form-control" name="to_date" placeholder="To date"/>
+                                        <input type='text' class="form-control" name="to_date" placeholder="To date" required/>
                                     </div>
                                 </div>
                             </div>
@@ -122,7 +80,7 @@ if(isset($_POST['submit']))
                         </div>
                         <div class="col-sm-9">
                             <div class="form-group">
-                                <input type="email" class="form-control" name="email">
+                                <input type="email" class="form-control" name="email" required>
                             </div>
                         </div>
                         <div class="col-sm-3">
@@ -130,7 +88,7 @@ if(isset($_POST['submit']))
                         </div>
                         <div class="col-sm-9">
                             <div class="form-group">
-                                <input type="text" class="form-control" name="mobile">
+                                <input type="text" class="form-control" name="mobile"required>
                             </div>
                         </div>
                         <div class="col-sm-3">
@@ -138,7 +96,7 @@ if(isset($_POST['submit']))
                         </div>
                         <div class="col-sm-9">
                             <div class="form-group">
-                                <select name="admin_approval" class="form-control" id="adminApproval" onchange="adminApproveal(this)">
+                                <select name="admin_approval" class="form-control" id="adminApproval" onchange="adminApproveal(this.value)" required>
                                     <option value="yes">Yes</option>
                                     <option value="no">No</option>
                                 </select>
@@ -157,7 +115,7 @@ if(isset($_POST['submit']))
                         </div>
                         <div class="col-sm-9">
                             <div class="form-group">
-                                <select name="maintanance" class="form-control" id="maintanaceCheck">
+                                <select name="maintanance" class="form-control" id="maintanaceCheck" onchange="maintananceChange(this.value)" required>
                                     <option value="yes">Yes</option>
                                     <option value="no">No</option>
                                 </select>
@@ -213,3 +171,4 @@ if(isset($_POST['submit']))
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
 </html>
+<?PHP unset($_SESSION['msg']);?>

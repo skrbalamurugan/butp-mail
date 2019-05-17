@@ -14,4 +14,6 @@
 
     $toAddress = [['email' => 'balamurugan@refixd.com'],['email' => 'bala@refixd.com']];
 
+    $subject = 'Hall Booking'
+
 ?>

@@ -2,7 +2,7 @@ $(document).ready(function(){
     var adminref = $('#adminApproval').val();
     var ref = $('#maintanaceCheck').val();
     adminApproveal(adminref);
-    maintanance(ref);
+    maintananceChange(ref);
 });
 
 function adminApproveal(data){
@@ -14,7 +14,7 @@ function adminApproveal(data){
         $('#admin-approval-form').hide();
     }
 }
-function maintanance(data){
+function maintananceChange(data){
     if(data == 'no'){
         $('.maintanance').show();
     } else {
