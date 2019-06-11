@@ -3,6 +3,11 @@ $(document).ready(function(){
     var ref = $('#maintanaceCheck').val();
     adminApproveal(adminref);
     maintananceChange(ref);
+
+    $.fn.datepicker.defaults.format = "yyyy-mm-dd";
+    $('.datepicker').datepicker({
+        format: 'yyyy-mm-dd'
+    });
 });
 
 function adminApproveal(data){
